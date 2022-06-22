@@ -1,5 +1,6 @@
 import json
 from typing import Any
+import sys
 
 import openai
 
@@ -29,8 +30,12 @@ async def generate_text(
     except KeyError:
         raise ValueError("Required 'openai_organization_id' missing.") from None
 
-    response = openai.Completion.create(engine=engine, prompt=prompt)
-
+    response = openai.Completion.create(
+        engine=engine,
+        prompt=prompt,
+        max_tokens=300,
+        stop=["\nHuman"],
+    )
     return response
 
 
